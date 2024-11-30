@@ -17,3 +17,6 @@ transformer_functions = frozendict(
         5: "horseshoe",
     }
 )
+
+affine_transformations_number = 3
+

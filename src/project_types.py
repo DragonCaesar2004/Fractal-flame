@@ -6,3 +6,5 @@ class UserData(NamedTuple):
     img_height_in_pixels: int
     iterations_number: int
     transformer_function_set: set[int]
+
+AffineCoefficients = tuple[float,float,float,float,float,float]
