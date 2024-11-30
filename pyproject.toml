@@ -8,6 +8,7 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
+frozendict = "^2.4.6"
 
 
 [tool.poetry.dev-dependencies]
@@ -20,6 +21,14 @@ pytest-deadfixtures = "*"
 pytest-mock = "*"
 pytest-repeat = "*"
 pytest-asyncio = "*"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.3"
+pytest-cov = "^6.0.0"
+mypy = "^1.13.0"
+
+[tool.pytest.ini_options]
+addopts = "--cov=src --cov-report=term-missing"
 
 [build-system]
 requires = ["poetry-core"]
