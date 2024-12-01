@@ -120,8 +120,8 @@ class CommandLineInterface(UserInterface):
     def _get_transformer_function_listing(self) -> str:
         result_message = """Выберите несколько трансфармирующих функций из списка.\n"""
 
-        for key, function in transformer_functions.items():
-            result_message += str(key) + " " + function + "\n"
+        for ind, function in enumerate(transformer_functions):
+            result_message += str(ind) + " " + function + "\n"
         return result_message
 
     def _get_enter_func_set_message(self) -> str:
