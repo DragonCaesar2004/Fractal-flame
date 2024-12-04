@@ -9,6 +9,7 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.11"
 frozendict = "^2.4.6"
+pillow = "^11.0.0"
 
 
 [tool.poetry.dev-dependencies]

@@ -3,7 +3,7 @@ from src.command_line_interface import (
     CommandLineInterface,
 )  # Предполагаемое имя модуля и класса
 from src.custom_exception import CustomException
-from src.config import MAX_ITERATION_NUM
+from src.config import max_iteration_num
 from src.project_types import UserData
 
 
@@ -117,7 +117,7 @@ def test_negative_iterations_input(monkeypatch, cli_fixture):
 
 def test_exceeding_iterations_input(monkeypatch, cli_fixture):
 
-    monkeypatch.setattr("builtins.input", lambda input: str(MAX_ITERATION_NUM + 1))
+    monkeypatch.setattr("builtins.input", lambda input: str(max_iteration_num + 1))
     with pytest.raises(CustomException) as exc_info:
         cli_fixture._get_iterations_number()
     assert (

@@ -1,13 +1,24 @@
 from frozendict import frozendict
 from math import sin, cos
 
-MIN_WIDTH = 376
-MAX_WIDTH = 2000
+min_width = 376
+max_width = 2000
+min_height = 256
+max_height = 2000
 
-MIN_HEIGHT = 256
-MAX_HEIGHT = 2000
+max_iteration_num = 10_000_000
 
-MAX_ITERATION_NUM = 10_000_000
+affine_transformations_num = 3
+
+start_point = (0.0, 0.0)  # x,y
+
+
+left_bound_of_affine_coeffs = -1
+right_bound_of_affine_coeffs = 1
+
+# количество первых итераций, которые булут пропущены, для того чтобы 
+# убрать влияние начальной точки.
+discarded_iteration_number = 50
 
 transformer_functions = frozendict(
     {
@@ -25,14 +36,3 @@ transformer_functions = frozendict(
     }
 )
 
-affine_transformations_number = 3
-
-start_point = (0, 0)  # x,y
-
-
-left_bound_of_affine_coeffs = -1
-right_bound_of_affine_coeffs = 1
-
-# количество первых итераций, которые булут пропущены, для того чтобы 
-# убрать влияние начальной точки.
-discarded_iterations = 50

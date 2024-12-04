@@ -1,7 +1,6 @@
 import random
-from frozendict import frozendict
 
-from src.config import affine_transformations_number, left_bound_of_affine_coeffs,right_bound_of_affine_coeffs
+from src.config import  left_bound_of_affine_coeffs,right_bound_of_affine_coeffs,transformer_functions
 from src.project_types import AffineTransformation
 
 """
@@ -33,7 +32,7 @@ def generate_valid_affine_transformation() -> AffineTransformation:
             # Генерация оставшихся коэффициентов c и f
             c = random.uniform(left_bound_of_affine_coeffs, right_bound_of_affine_coeffs)
             f = random.uniform(left_bound_of_affine_coeffs, right_bound_of_affine_coeffs)
-            
+
             # Генерация яркости каждого цвета в диапозоне от 0 до 255
             red = random.randint(0,255)
             green = random.randint(0,255)
@@ -42,7 +41,7 @@ def generate_valid_affine_transformation() -> AffineTransformation:
 
 
 # Функция для генерации случайных вероятностей, сумма которых равна 1
-def generate_probabilities(n) -> list[float]:
+def generate_probabilities(n:int ) -> list[float]:
     probabilities = [random.random() for _ in range(n)]
     total = sum(probabilities)
     return [p / total for p in probabilities]
@@ -50,10 +49,13 @@ def generate_probabilities(n) -> list[float]:
 
 
 
-# Создание словаря, где коэффициенты — ключи, а вероятности — значения
-# affine_conversion_coefficients = frozendict(
-#     {
-#         coefficients: probability
-#         for coefficients, probability in zip(affine_coefficients, affine_probabilities)
-#     }
-# )
+def apply_variations(transformer_function_set:set[int] ,x_cur: float,y_cur: float)-> tuple[float, float]:
+    
+    x_var,y_var = 0,0
+    
+    for ind, variation in enumerate(transformer_functions):
+        if ind in transformer_function_set:
+            x_v, y_v = transformer_functions[variation](x_cur,y_cur)
+            x_var += x_v
+            y_var += y_v
+    return x_var, y_var

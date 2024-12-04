@@ -2,7 +2,7 @@ import logging
 import platform
 
 from src.command_line_interface import CommandLineInterface
-from src.manager import Manager
+from src.core.fractal_manager import Manager
 
 logging.basicConfig()
 logging.getLogger().setLevel(logging.INFO)
@@ -14,8 +14,8 @@ def main() -> None:
     try:
         cli = CommandLineInterface()
         user_data = cli.get_user_data()
-        manager = Manager(user_data, cli)
-        
+        manager = Manager(user_data)
+        manager.create_fractal_flame()
     except Exception as e:
         print(e)
 

@@ -2,11 +2,11 @@ from src.user_interface import UserInterface
 from src.project_types import UserData
 from src.custom_exception import CustomException
 from src.config import (
-    MIN_HEIGHT,
-    MIN_WIDTH,
-    MAX_HEIGHT,
-    MAX_WIDTH,
-    MAX_ITERATION_NUM,
+    min_height,
+    min_width,
+    max_height,
+    max_width,
+    max_iteration_num,
     transformer_functions,
 )
 
@@ -15,10 +15,10 @@ class CommandLineInterface(UserInterface):
 
     def get_user_data(self) -> UserData:
         img_width_in_pixels: int = self._get_size(
-            self._get_width_input_message(), MIN_WIDTH, MAX_WIDTH
+            self._get_width_input_message(), min_width, max_width
         )
         img_height_in_pixels: int = self._get_size(
-            self._get_height_input_message(), MIN_HEIGHT, MAX_HEIGHT
+            self._get_height_input_message(), min_height, max_height
         )
         iterations_number: int = self._get_iterations_number()
         transformer_function_set: set[int] = self._get_transformer_function_set()
@@ -73,7 +73,7 @@ class CommandLineInterface(UserInterface):
         if entered_iterations_number <= 0:
             raise CustomException(self._get_more_than_zero_message())
 
-        if entered_iterations_number > MAX_ITERATION_NUM:
+        if entered_iterations_number > max_iteration_num:
             raise CustomException(self._get_iter_num_more_than_max())
 
         return entered_iterations_number
@@ -97,7 +97,7 @@ class CommandLineInterface(UserInterface):
         functions_num_set = set()
         for num_str in entered_set.split():
             num = self._int_validate(num_str)
-            if not (1 <= num <= max_num):
+            if not (0 <= num <= max_num):
                 raise CustomException(self._get_not_in_range_message())
             if num in functions_num_set:
                 raise CustomException(self._get_duplicate_input())
