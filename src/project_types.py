@@ -1,8 +1,9 @@
 from typing import NamedTuple
 from dataclasses import dataclass
+from math import log10
 
 ImageCoordsAlias =  tuple[int, int]
-PointAlias = tuple[float, float, int,int,int] 
+PointCoordsAlias = tuple[float, float]
 
 class UserData(NamedTuple):
     img_width_in_pixels: int
@@ -17,6 +18,7 @@ class Pixel:
     green: int = 0
     blue: int = 0
     counter: int = 0
+    normal: float = 1.0
 
     def increment_counter(self)->None:
         self.counter+=1
@@ -25,6 +27,10 @@ class Pixel:
         self.red = (self.red+ new_red)//2
         self.green = (self.green+ new_green)//2
         self.blue = (self.blue+ new_blue)//2
+
+    def update_normal(self):
+        if self.counter:
+            self.normal: float = log10(self.counter)
 
 
 
@@ -40,20 +46,8 @@ class AffineTransformation:
     red: int
     green: int
     blue: int
-
-    def apply_affine_transformation(self, x:float, y: float)->tuple[float, float]:
+    
+    def apply_affine_transformation(self, x:float, y: float)->PointCoordsAlias:
         return self.a *x  +self.b *y + self.c, self.d *x +self.e *y + self.f
     
 
-@dataclass
-class FractalLimits:
-    x_min: float = float('inf')
-    x_max: float = -float('inf')
-    y_min: float = float('inf')
-    y_max: float = -float('inf')
-
-    def update(self,x_cur,y_cur):
-        self.x_min = min(self.x_min, x_cur)
-        self.x_max = max(self.x_max, x_cur)
-        self.y_min = min(self.y_min, y_cur)
-        self.y_max = max(self.y_max, y_cur)

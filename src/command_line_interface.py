@@ -12,8 +12,21 @@ from src.config import (
 
 
 class CommandLineInterface(UserInterface):
+    '''
+    Командный интерфейс пользователя для ввода данных.
 
+    Этот класс отвечает за взаимодействие с пользователем через 
+    консольный интерфейс для получения необходимых данных.
+    '''
     def get_user_data(self) -> UserData:
+        '''
+        Получает данные пользователя.
+
+        Запрашивает у пользователя ширину и высоту изображения, 
+        количество итераций и набор функций преобразования, 
+        выполняет валидацию введенных данных и возвращает объект 
+        UserData с полученными значениями.
+        '''
         img_width_in_pixels: int = self._get_size(
             self._get_width_input_message(), min_width, max_width
         )
@@ -31,6 +44,15 @@ class CommandLineInterface(UserInterface):
         )
 
     def _get_size(self, side: str, min_size: int, max_size: int) -> int:
+        '''
+        Запрашивает размер у пользователя и выполняет его валидацию.
+
+        Принимает название стороны (ширина или высота), минимальный 
+        и максимальный размер, запрашивает у пользователя ввод и 
+        проверяет, что введенное значение соответствует условиям. 
+        В случае ошибки генерирует CustomException с соответствующим 
+        сообщением.
+        '''
         size_message = self._get_size_message(side)
         entered_size_str = input(size_message)
 
@@ -68,6 +90,14 @@ class CommandLineInterface(UserInterface):
         return "Введите высоту изображения."
 
     def _get_iterations_number(self) -> int:
+        '''
+        Запрашивает у пользователя количество итераций и выполняет его валидацию.
+
+        Пользователь вводит число итераций, которое проверяется на 
+        соответствие условиям: должно быть больше нуля и не превышать 
+        максимальное разрешенное количество итераций. В случае ошибки 
+        генерируется CustomException с соответствующим сообщением.
+        '''
         entered_iterations_number_str = input(self._get_iterations_number_message())
         entered_iterations_number = self._int_validate(entered_iterations_number_str)
         if entered_iterations_number <= 0:
@@ -88,6 +118,16 @@ class CommandLineInterface(UserInterface):
         return "Введеное число итераций превышает максимальное значение, программа будет слишком долго работать."
 
     def _get_transformer_function_set(self) -> set[int]:
+        '''
+        Запрашивает у пользователя набор функций преобразования и выполняет его валидацию.
+
+        Пользователь получает список доступных функций преобразования и 
+        должен ввести их номера через пробел. Введенные данные проверяются на 
+        наличие ошибок: не должно быть пустого ввода, номера должны 
+        находиться в допустимом диапазоне и не должно быть дубликатов. 
+        В случае ошибок генерируются CustomException с соответствующими 
+        сообщениями.
+        '''
         print(self._get_transformer_function_listing())
         entered_set = input(self._get_enter_func_set_message())
         if len(entered_set) == 0:
@@ -111,6 +151,14 @@ class CommandLineInterface(UserInterface):
         return "Вы ввели число не из заданного диапазона."
 
     def _int_validate(self, number_str: str) -> int:
+        '''
+        Валидирует строку, преобразуя её в целое число.
+
+        Этот метод пытается преобразовать переданную строку в целое число.
+        Если преобразование не удается, генерируется CustomException 
+        с соответствующим сообщением. 
+
+        '''
         try:
             number = int(number_str)
         except Exception as e:
@@ -118,11 +166,20 @@ class CommandLineInterface(UserInterface):
         return number
 
     def _get_transformer_function_listing(self) -> str:
+        '''
+        Формирует и возвращает строку со списком доступных функций преобразования.
+
+        Этот метод создает строку, в которой перечислены индексы 
+        и названия всех доступных функций преобразования. 
+        Каждая функция отображается с её индексом для удобства выбора.
+        '''
+
         result_message = """Выберите несколько трансфармирующих функций из списка.\n"""
 
         for ind, function in enumerate(transformer_functions):
             result_message += str(ind) + " " + function + "\n"
         return result_message
+    
 
     def _get_enter_func_set_message(self) -> str:
         return "Введите только номера через пробел: "

@@ -1,7 +1,7 @@
 import random
 
 from src.config import  left_bound_of_affine_coeffs,right_bound_of_affine_coeffs,transformer_functions
-from src.project_types import AffineTransformation
+from src.project_types import AffineTransformation,PointCoordsAlias
 
 """
 Необходимо подобрать такие коэффициенты, чтобы полученное преобразование было сжимающим,
@@ -17,7 +17,6 @@ y′ = dx + ey + f
  
 def generate_valid_affine_transformation() -> AffineTransformation:
     while True:
-        
         a = random.uniform(left_bound_of_affine_coeffs, right_bound_of_affine_coeffs)
         b = random.uniform(left_bound_of_affine_coeffs, right_bound_of_affine_coeffs)
         d = random.uniform(left_bound_of_affine_coeffs, right_bound_of_affine_coeffs)
@@ -33,7 +32,7 @@ def generate_valid_affine_transformation() -> AffineTransformation:
             c = random.uniform(left_bound_of_affine_coeffs, right_bound_of_affine_coeffs)
             f = random.uniform(left_bound_of_affine_coeffs, right_bound_of_affine_coeffs)
 
-            # Генерация яркости каждого цвета в диапозоне от 0 до 255
+            # Генерация яркости каждого цвета в диапозоне от 0 до 255. 8 бит. предствление цвета
             red = random.randint(0,255)
             green = random.randint(0,255)
             blue = random.randint(0,255)
@@ -48,9 +47,14 @@ def generate_probabilities(n:int ) -> list[float]:
 
 
 
+def apply_variations(transformer_function_set:set[int] ,x_cur: float,y_cur: float)-> PointCoordsAlias:
+    '''
+    Применяет набор функций преобразования к заданным координатам.
 
-def apply_variations(transformer_function_set:set[int] ,x_cur: float,y_cur: float)-> tuple[float, float]:
-    
+    Эта функция принимает множество индексов, представляющих функции преобразования, 
+    применяет эти преобразования к текущим координатам (x_cur, y_cur) и возвращает 
+    суммарные изменения в координатах x и y.
+    '''
     x_var,y_var = 0,0
     
     for ind, variation in enumerate(transformer_functions):
