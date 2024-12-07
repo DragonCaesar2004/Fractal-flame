@@ -1,9 +1,14 @@
 import pytest
 import random
-from src.config import affine_transformations_num, left_bound_of_affine_coeffs, right_bound_of_affine_coeffs
+from src.config import (
+    affine_transformations_num,
+    left_bound_of_affine_coeffs,
+    right_bound_of_affine_coeffs,
+)
 from src.core.transformations import (
     generate_valid_affine_transformation,
-    generate_probabilities, apply_variations
+    generate_probabilities,
+    apply_variations,
 )
 from math import sin, cos
 
@@ -28,7 +33,7 @@ def affine_probabilities():
 
 def test_generate_valid_affine_coefficients():
     """Тест генерации корректных коэффициентов."""
-    affine_trans= generate_valid_affine_transformation()
+    affine_trans = generate_valid_affine_transformation()
 
     assert left_bound_of_affine_coeffs <= affine_trans.a <= right_bound_of_affine_coeffs
     assert left_bound_of_affine_coeffs <= affine_trans.b <= right_bound_of_affine_coeffs
@@ -37,13 +42,16 @@ def test_generate_valid_affine_coefficients():
     assert left_bound_of_affine_coeffs <= affine_trans.c <= right_bound_of_affine_coeffs
     assert left_bound_of_affine_coeffs <= affine_trans.f <= right_bound_of_affine_coeffs
 
-    assert 0<=affine_trans.red<=255
-    assert 0<=affine_trans.blue<=255
-    assert 0<=affine_trans.green<=255
+    assert 0 <= affine_trans.red <= 255
+    assert 0 <= affine_trans.blue <= 255
+    assert 0 <= affine_trans.green <= 255
     # Проверка условий (из вашего алгоритма)
     assert affine_trans.a**2 + affine_trans.d**2 < 1
     assert affine_trans.b**2 + affine_trans.e**2 < 1
-    assert affine_trans.a**2 + affine_trans.b**2 + affine_trans.d**2 + affine_trans.e**2 < 1 + (affine_trans.a * affine_trans.e - affine_trans.b * affine_trans.d) ** 2
+    assert (
+        affine_trans.a**2 + affine_trans.b**2 + affine_trans.d**2 + affine_trans.e**2
+        < 1 + (affine_trans.a * affine_trans.e - affine_trans.b * affine_trans.d) ** 2
+    )
 
 
 def test_generate_probabilities():
@@ -70,14 +78,16 @@ def test_apply_variations_linear_function():
     transformer_function_set = {0}  # Включаем только mock_transform_1
     x_cur, y_cur = 1, 1
     x_var, y_var = apply_variations(transformer_function_set, x_cur, y_cur)
-    assert (x_var, y_var) == (1, 1)   
+    assert (x_var, y_var) == (1, 1)
+
 
 def test_apply_variations_multiple_functions():
     # Проверка применения нескольких преобразований
     transformer_function_set = {0, 1}  # Включаем mock_transform_1 и mock_transform_2
     x_cur, y_cur = 1, 1
     x_var, y_var = apply_variations(transformer_function_set, x_cur, y_cur)
-    assert (x_var, y_var) == (1+sin(1), 1+sin(1))   
+    assert (x_var, y_var) == (1 + sin(1), 1 + sin(1))
+
 
 def test_apply_variations_no_functions():
     # Проверка работы с пустым набором функций
@@ -86,32 +96,39 @@ def test_apply_variations_no_functions():
     x_var, y_var = apply_variations(transformer_function_set, x_cur, y_cur)
     assert (x_var, y_var) == (0, 0)  # Без трансформаций результат должен быть (0, 0)
 
+
 def test_apply_variations_sinusoidal_function():
-    transformer_function_set = {1}   
+    transformer_function_set = {1}
     x_cur, y_cur = 1, -1
     x_var, y_var = apply_variations(transformer_function_set, x_cur, y_cur)
-    assert (x_var, y_var) == (sin(x_cur), sin(y_cur))   
+    assert (x_var, y_var) == (sin(x_cur), sin(y_cur))
+
 
 def test_apply_variations_spherical_function():
-    transformer_function_set = {2}   
+    transformer_function_set = {2}
     x_cur, y_cur = 1, -1
     x_var, y_var = apply_variations(transformer_function_set, x_cur, y_cur)
-    assert (x_var, y_var) == (x_cur / (x_cur**2 + y_cur**2), y_cur / (x_cur**2 + y_cur**2)) 
+    assert (x_var, y_var) == (
+        x_cur / (x_cur**2 + y_cur**2),
+        y_cur / (x_cur**2 + y_cur**2),
+    )
 
 
 def test_apply_variations_swirl_function():
-    transformer_function_set = {3}   
+    transformer_function_set = {3}
     x_cur, y_cur = 2, -2
     x_var, y_var = apply_variations(transformer_function_set, x_cur, y_cur)
-    assert (x_var, y_var) == (  x_cur * sin(x_cur**2 + y_cur**2) - y_cur * cos(x_cur**2 + y_cur**2),
-            x_cur * cos(x_cur**2 + y_cur**2) + y_cur * sin(x_cur**2 + y_cur**2)) 
-    
+    assert (x_var, y_var) == (
+        x_cur * sin(x_cur**2 + y_cur**2) - y_cur * cos(x_cur**2 + y_cur**2),
+        x_cur * cos(x_cur**2 + y_cur**2) + y_cur * sin(x_cur**2 + y_cur**2),
+    )
+
 
 def test_apply_variations_horseshoe_function():
-    transformer_function_set = {4}   
+    transformer_function_set = {4}
     x_cur, y_cur = 2, -2
     x_var, y_var = apply_variations(transformer_function_set, x_cur, y_cur)
-    assert (x_var, y_var) ==  (
-            (x_cur - y_cur) * (x_cur + y_cur) / (x_cur**2 + y_cur**2)**0.5,
-            2 * x_cur * y_cur / (x_cur**2 + y_cur**2)**0.5,
-        )
+    assert (x_var, y_var) == (
+        (x_cur - y_cur) * (x_cur + y_cur) / (x_cur**2 + y_cur**2) ** 0.5,
+        2 * x_cur * y_cur / (x_cur**2 + y_cur**2) ** 0.5,
+    )

@@ -3,16 +3,18 @@ from typing import NamedTuple
 from src.visualization.scaling import scale_to_image_coordinates
 
 
-@pytest.fixture(scope='session')
+@pytest.fixture(scope="session")
 def fractal_limits():
     """Фикстура для границ фрактала."""
+
     class FractalLimits(NamedTuple):
         x_min = -2.0
         x_max = 2.0
         y_min = -2.0
         y_max = 2.0
-    
+
     return FractalLimits()
+
 
 def test_scale_to_image_coordinates_center():
     """Тест центра изображения."""
@@ -23,6 +25,7 @@ def test_scale_to_image_coordinates_center():
     expected = (49, 49)  # Центр изображения
     assert result == expected
 
+
 def test_scale_to_image_coordinates_bottom_left():
     """Тест левого нижнего угла."""
     coord_x, coord_y = -1.0, -1.0
@@ -31,6 +34,7 @@ def test_scale_to_image_coordinates_bottom_left():
     result = scale_to_image_coordinates(coord_x, coord_y, img_width, img_height)
     expected = (0, 0)  # Левый нижний угол
     assert result == expected
+
 
 def test_scale_to_image_coordinates_top_right():
     """Тест верхнего правого угла."""
@@ -41,6 +45,7 @@ def test_scale_to_image_coordinates_top_right():
     expected = (99, 99)  # Правый верхний угол
     assert result == expected
 
+
 def test_scale_to_image_coordinates_out_of_bounds():
     """Проверка координат за пределами диапазона границ."""
     coord_x, coord_y = 3.0, 3.0
@@ -49,6 +54,7 @@ def test_scale_to_image_coordinates_out_of_bounds():
     result = scale_to_image_coordinates(coord_x, coord_y, img_width, img_height)
     expected = (198, 198)  # Проверяем, что значения корректно вылезают за пределы
     assert result == expected
+
 
 def test_scale_to_image_coordinates_edge_case():
     """Тест граничного случая."""

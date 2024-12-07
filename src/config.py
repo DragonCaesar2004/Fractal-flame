@@ -1,5 +1,5 @@
 from frozendict import frozendict
-from math import sin, cos,  atan2, sqrt, pi
+from math import sin, cos, atan2, sqrt, pi
 from enum import Enum
 
 # минимальные и максимальные значения для длины / ширины изображения
@@ -14,14 +14,14 @@ max_iteration_num = 50_000_000
 # кол-во аффинных преобразований, применяемых к точке на каждой итерации
 affine_transformations_num = 3
 
-#кол-во стартовых точек
-count_start_points=2
+# кол-во стартовых точек
+count_start_points = 2
 
-# левая и правая границы для коэфициентов аффиннго преобразования 
+# левая и правая границы для коэфициентов аффиннго преобразования
 left_bound_of_affine_coeffs = -1
 right_bound_of_affine_coeffs = 1
 
-# количество первых итераций, которые булут пропущены, для того чтобы 
+# количество первых итераций, которые булут пропущены, для того чтобы
 # убрать влияние начальной точки.
 discarded_iteration_number = 50
 
@@ -29,7 +29,7 @@ discarded_iteration_number = 50
 gamma_coeff = 3.5
 
 # параметр симметрии
-symmetry_axes_count =1
+symmetry_axes_count = 1
 
 
 # словарь вариаций frozendict[name]= function
@@ -77,7 +77,6 @@ transformer_functions = frozendict(
             sin(atan2(y, x)) * cos(sqrt(x**2 + y**2)),
             cos(atan2(y, x)) * sin(sqrt(x**2 + y**2)),
         ),
-
     }
 )
 

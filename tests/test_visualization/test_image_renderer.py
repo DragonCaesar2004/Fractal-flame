@@ -1,7 +1,9 @@
 import pytest
 from PIL import Image
 from src.project_types import Pixel
-from src.visualization.image_renderer import create_fractal_image 
+from src.visualization.image_renderer import create_fractal_image
+
+
 @pytest.fixture
 def sample_pixels():
     """Пример данных для тестирования."""
@@ -11,10 +13,12 @@ def sample_pixels():
         (2, 2): Pixel(red=0, green=0, blue=255),  # Синий пиксель
     }
 
+
 @pytest.fixture
 def image_size():
     """Размер тестового изображения."""
     return 3, 3
+
 
 def test_create_fractal_image_creates_file(image_size, sample_pixels, tmp_path):
     """Проверка, что изображение создается и сохраняется."""
@@ -30,6 +34,7 @@ def test_create_fractal_image_creates_file(image_size, sample_pixels, tmp_path):
     img = Image.open(output_path)
     assert img.size == (img_width, img_height)
 
+
 def test_create_fractal_image_pixel_colors(image_size, sample_pixels, tmp_path):
     """Проверка установки правильных цветов пикселей."""
     img_width, img_height = image_size
@@ -42,7 +47,10 @@ def test_create_fractal_image_pixel_colors(image_size, sample_pixels, tmp_path):
     for coords, pixel in sample_pixels.items():
         assert img.getpixel(coords) == (pixel.red, pixel.green, pixel.blue)
 
-def test_create_fractal_image_ignores_out_of_bounds(image_size, sample_pixels, tmp_path):
+
+def test_create_fractal_image_ignores_out_of_bounds(
+    image_size, sample_pixels, tmp_path
+):
     """Проверка, что пиксели за пределами изображения игнорируются."""
     img_width, img_height = image_size
     output_path = tmp_path / "fractal_flame.png"

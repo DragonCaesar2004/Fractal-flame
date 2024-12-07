@@ -9,6 +9,7 @@ logging.getLogger().setLevel(logging.INFO)
 logger = logging.getLogger(__name__)
 import time
 
+
 def main() -> None:
     logger.info(platform.python_version())
     try:
