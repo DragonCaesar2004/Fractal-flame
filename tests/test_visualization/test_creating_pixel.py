@@ -1,14 +1,7 @@
-import pytest
 from src.core.creating_pixel import create_pixel  
 from src.project_types import AffineTransformation
 
-
-
-
-
-
-
-# Пишем тесты
+ 
 def test_create_new_pixel():
     pixels = {}
     affine_transf = AffineTransformation(a=0.5,b=0.5,c=0.5,d=0.5,e=0.5,f=0.5,red=10, green=20, blue=30)

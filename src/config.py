@@ -14,7 +14,8 @@ max_iteration_num = 50_000_000
 # кол-во аффинных преобразований, применяемых к точке на каждой итерации
 affine_transformations_num = 3
 
-start_point = (0.0, 0.0)  # x,y координаты стартовой точки
+#кол-во стартовых точек
+count_start_points=2
 
 # левая и правая границы для коэфициентов аффиннго преобразования 
 left_bound_of_affine_coeffs = -1
@@ -28,7 +29,7 @@ discarded_iteration_number = 50
 gamma_coeff = 3.5
 
 # параметр симметрии
-symmetry_axes_count = 3
+symmetry_axes_count =1
 
 
 # словарь вариаций frozendict[name]= function

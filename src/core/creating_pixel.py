@@ -15,3 +15,14 @@ def create_pixel(pixels: dict[ImageCoordsAlias, Pixel],affine_transf:AffineTrans
     
     pixels[(image_x, image_y)].increment_counter()
     
+def combine_pixels(results:list[dict[ImageCoordsAlias, Pixel]])->dict[ImageCoordsAlias, Pixel]:
+    combined_pixels: dict[ImageCoordsAlias, Pixel] = {}
+
+    for proc_pixels in results:
+        for coord, pixel in proc_pixels.items():
+            if coord in combined_pixels:
+                combined_pixels[coord].counter += pixel.counter
+                combined_pixels[coord].update_color(pixel.red, pixel.green, pixel.blue)
+            else:
+                combined_pixels[coord] = Pixel(counter=pixel.counter, red=pixel.red, green=pixel.green, blue=pixel.blue)
+    return combined_pixels

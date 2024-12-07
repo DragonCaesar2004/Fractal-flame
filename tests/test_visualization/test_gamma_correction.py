@@ -1,9 +1,6 @@
 import pytest
-from src.project_types import Pixel, ImageCoordsAlias
+from src.project_types import Pixel
 from src.visualization.gamma_correction import gamma_correction
-
-# Класс Pixel, пример реализации для тестов
-
 
 # Фикстура для создания примера с тестовыми пикселями
 @pytest.fixture
