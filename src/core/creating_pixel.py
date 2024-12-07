@@ -29,6 +29,7 @@ def create_pixel(
 def combine_pixels(
     results: list[dict[ImageCoordsAlias, Pixel]]
 ) -> dict[ImageCoordsAlias, Pixel]:
+    '''Объединяет результаты нескольких параллельных задач обработки пикселей в один словарь.'''
     combined_pixels: dict[ImageCoordsAlias, Pixel] = {}
 
     for proc_pixels in results:
