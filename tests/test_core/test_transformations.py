@@ -10,7 +10,7 @@ from src.core.transformations import (
     generate_probabilities,
     apply_variations,
 )
-from math import sin, cos
+from math import sin, cos, sqrt, atan2, pi
 
 # Фиксируем seed для тестирования случайности
 random.seed(1)
@@ -131,4 +131,71 @@ def test_apply_variations_horseshoe_function():
     assert (x_var, y_var) == (
         (x_cur - y_cur) * (x_cur + y_cur) / (x_cur**2 + y_cur**2) ** 0.5,
         2 * x_cur * y_cur / (x_cur**2 + y_cur**2) ** 0.5,
+    )
+
+
+def test_apply_variations_polar_function():
+    transformer_function_set = {5}
+    x_cur, y_cur = 3, 4
+    x_var, y_var = apply_variations(transformer_function_set, x_cur, y_cur)
+    assert (x_var, y_var) == (
+        atan2(y_cur, x_cur) / pi,
+        sqrt(x_cur**2 + y_cur**2) - 1,
+    )
+
+def test_apply_variations_handkerchief_function():
+    transformer_function_set = {6}
+    x_cur, y_cur = 3, 4
+    x_var, y_var = apply_variations(transformer_function_set, x_cur, y_cur)
+    assert (x_var, y_var) == (
+        sqrt(x_cur**2 + y_cur**2) * sin(atan2(y_cur, x_cur) + sqrt(x_cur**2 + y_cur**2)),
+        sqrt(x_cur**2 + y_cur**2) * cos(atan2(y_cur, x_cur) - sqrt(x_cur**2 + y_cur**2)),
+    )
+
+def test_apply_variations_heart_function():
+    transformer_function_set = {7}
+    x_cur, y_cur = -3, 4
+    x_var, y_var = apply_variations(transformer_function_set, x_cur, y_cur)
+    assert (x_var, y_var) == (
+        sqrt(x_cur**2 + y_cur**2) * sin(atan2(y_cur, x_cur) * sqrt(x_cur**2 + y_cur**2)),
+        -sqrt(x_cur**2 + y_cur**2) * cos(atan2(y_cur, x_cur) * sqrt(x_cur**2 + y_cur**2)),
+    )
+
+def test_apply_variations_disc_function():
+    transformer_function_set = {8}
+    x_cur, y_cur = -3, 4
+    x_var, y_var = apply_variations(transformer_function_set, x_cur, y_cur)
+    assert (x_var, y_var) == (
+        atan2(y_cur, x_cur) / pi * sin(pi * sqrt(x_cur**2 + y_cur**2)),
+        atan2(y_cur, x_cur) / pi * cos(pi * sqrt(x_cur**2 + y_cur**2)),
+    )
+
+def test_apply_variations_spiral_function():
+    transformer_function_set = {9}
+    x_cur, y_cur = 1, 2
+    x_var, y_var = apply_variations(transformer_function_set, x_cur, y_cur)
+    norm = sqrt(x_cur**2 + y_cur**2)
+    assert (x_var, y_var) == (
+        1 / norm * (cos(atan2(y_cur, x_cur) + norm)),
+        1 / norm * (sin(atan2(y_cur, x_cur) - norm)),
+    )
+
+def test_apply_variations_hyperbolic_function():
+    transformer_function_set = {10}
+    x_cur, y_cur = 2, 1
+    x_var, y_var = apply_variations(transformer_function_set, x_cur, y_cur)
+    norm = sqrt(x_cur**2 + y_cur**2)
+    assert (x_var, y_var) == (
+        sin(atan2(y_cur, x_cur)) / norm,
+        cos(atan2(y_cur, x_cur)) * norm,
+    )
+
+def test_apply_variations_diamond_function():
+    transformer_function_set = {11}
+    x_cur, y_cur = 4, -3
+    x_var, y_var = apply_variations(transformer_function_set, x_cur, y_cur)
+    norm = sqrt(x_cur**2 + y_cur**2)
+    assert (x_var, y_var) == (
+        sin(atan2(y_cur, x_cur)) * cos(norm),
+        cos(atan2(y_cur, x_cur)) * sin(norm),
     )
