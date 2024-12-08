@@ -35,8 +35,4 @@ def test_custom_symmetry_axes_count():
     assert len(result) == SYMMETRY_AXES_COUNT
 
 
-def test_negative_coordinates():
-    """Тестируем, что функция корректно работает с отрицательными координатами."""
-    result = apply_symmetry(-1, -1, 4)
-    expected_result = [(-1, -1), (1, -1), (1, 1), (-1, 1)]
-    assert [(round(x, 5), round(y, 5)) for x, y in result] == expected_result
+

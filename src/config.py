@@ -26,7 +26,7 @@ RIGHT_BOUND_OF_AFFINE_COEFFS = 1
 DISCARDED_ITERATION_NUMBER = 50
 
 # коэфф-т гамма коррекции
-GAMMA_COEFF = 3.5
+GAMMA_COEFF = 2.4
 
 # параметр симметрии
 SYMMETRY_AXES_COUNT = 3
@@ -89,3 +89,5 @@ class FractalLimits(NamedTuple):
 
 
 FRACTAL_LIMITS = FractalLimits()
+
+OUTPUT_ADDRESS = "fractal_flame.png"

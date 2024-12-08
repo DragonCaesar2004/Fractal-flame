@@ -4,7 +4,8 @@ from src.project_types import UserData
 from src.config import (
     COUNT_START_POINTS,
     AFFINE_TRANSFORMATIONS_NUM,
-    GAMMA_COEFF
+    GAMMA_COEFF,
+    OUTPUT_ADDRESS
 )
 from src.core.pixels_generation import process_single_start_point
 from src.core.creating_pixel import  combine_pixels
@@ -19,12 +20,10 @@ from src.visualization.gamma_correction import gamma_correction
 from src.timing_decorator import timing_decorator
 
 
-
 class Manager:
-    def __init__(self, user_data: UserData):
-        """
-        Инициализация менеджера.
-        """
+    """ Класс, отвечающий за создание фрактальных изображений с использованием аффинных трансформаций."""
+    def __init__(self, user_data: UserData)->None:
+        """Инициализация менеджера."""
         self.user_data = user_data
 
         # Генерация всех аффинных трансформаций
@@ -65,5 +64,5 @@ class Manager:
         create_fractal_image(
             self.user_data.img_width_in_pixels,
             self.user_data.img_height_in_pixels,
-            combined_pixels,
+            combined_pixels, OUTPUT_ADDRESS
         )

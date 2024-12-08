@@ -16,7 +16,7 @@ def main() -> None:
         user_data = cli.get_user_data()
 
         manager = Manager(user_data)
-        manager.create_fractal_flame(multistream=False)
+        manager.create_fractal_flame(multistream=True)
 
     except Exception as e:
         print(e)

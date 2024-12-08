@@ -20,6 +20,19 @@ y′ = dx + ey + f
 
 
 def generate_valid_affine_transformation() -> AffineTransformation:
+    """
+    Генерирует случайное и валидное аффинное преобразование.
+
+    Возвращает объект типа AffineTransformation с случайными коэффициентами
+    аффинного преобразования и цветами в диапазоне от 0 до 255. Генерация
+    продолжается до тех пор, пока не будут найдены коэффициенты, удовлетворяющие
+    указанным математическим условиям.
+
+    Условия:
+        - a² + d² < 1
+        - b² + e² < 1
+        - a² + b² + d² + e² < 1 + (a * e - b * d)²
+    """
     while True:
         a = random.uniform(LEFT_BOUND_OF_AFFINE_COEFFS, RIGHT_BOUND_OF_AFFINE_COEFFS)
         b = random.uniform(LEFT_BOUND_OF_AFFINE_COEFFS, RIGHT_BOUND_OF_AFFINE_COEFFS)
@@ -51,6 +64,13 @@ def generate_valid_affine_transformation() -> AffineTransformation:
 
 # Функция для генерации случайных вероятностей, сумма которых равна 1
 def generate_probabilities(n: int) -> list[float]:
+    """
+    Генерирует список случайных вероятностей, сумма которых равна 1.
+
+    Генерация происходит путем создания n случайных чисел, которые затем
+    нормализуются так, чтобы их сумма составляла 1. Это может быть полезно
+    для создания распределений вероятностей.
+    """
     probabilities = [random.random() for _ in range(n)]
     total = sum(probabilities)
     return [p / total for p in probabilities]

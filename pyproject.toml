@@ -34,3 +34,18 @@ addopts = "--cov=src --cov-report=term-missing"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+    "D203",  # несовместимо с другими линтерами
+    "D212",  # делает строки документации непривлекательными, на мой взгляд
+    "COM812",  # несовместимо с форматировщиком
+    "ISC001",  # может конфликтовать с форматировщиком
+    "RUF002",  # кириллица в строках документации
+    "S311",  # стандартные псевдослучайные генераторы не подходят для криптографических целей
+    ]

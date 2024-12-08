@@ -37,6 +37,7 @@ def combine_pixels(
             if coord in combined_pixels:
                 combined_pixels[coord].counter += pixel.counter
                 combined_pixels[coord].update_color(pixel.red, pixel.green, pixel.blue)
+
             else:
                 combined_pixels[coord] = Pixel(
                     counter=pixel.counter,
