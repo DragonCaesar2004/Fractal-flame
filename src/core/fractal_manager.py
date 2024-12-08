@@ -1,28 +1,27 @@
 from multiprocessing import Pool, cpu_count
 
-from src.project_types import UserData
 from src.config import (
-    COUNT_START_POINTS,
     AFFINE_TRANSFORMATIONS_NUM,
+    COUNT_START_POINTS,
     GAMMA_COEFF,
-    OUTPUT_ADDRESS
+    OUTPUT_ADDRESS,
 )
+from src.core.creating_pixel import combine_pixels
 from src.core.pixels_generation import process_single_start_point
-from src.core.creating_pixel import  combine_pixels
 from src.core.transformations import (
-    generate_valid_affine_transformation,
     generate_probabilities,
-    )
-
-from src.visualization.image_renderer import create_fractal_image
-from src.visualization.gamma_correction import gamma_correction
-
+    generate_valid_affine_transformation,
+)
+from src.project_types import UserData
 from src.timing_decorator import timing_decorator
+from src.visualization.gamma_correction import gamma_correction
+from src.visualization.image_renderer import create_fractal_image
 
 
 class Manager:
-    """ Класс, отвечающий за создание фрактальных изображений с использованием аффинных трансформаций."""
-    def __init__(self, user_data: UserData)->None:
+    """Класс, отвечающий за создание фрактальных изображений с использованием аффинных трансформаций."""
+
+    def __init__(self, user_data: UserData) -> None:
         """Инициализация менеджера."""
         self.user_data = user_data
 
@@ -64,5 +63,6 @@ class Manager:
         create_fractal_image(
             self.user_data.img_width_in_pixels,
             self.user_data.img_height_in_pixels,
-            combined_pixels, OUTPUT_ADDRESS
+            combined_pixels,
+            OUTPUT_ADDRESS,
         )

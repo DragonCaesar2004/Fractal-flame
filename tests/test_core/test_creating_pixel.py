@@ -1,5 +1,5 @@
-from src.core.creating_pixel import create_pixel, combine_pixels
-from src.project_types import AffineTransformation, Pixel, ImageCoordsAlias
+from src.core.creating_pixel import combine_pixels, create_pixel
+from src.project_types import AffineTransformation, ImageCoordsAlias, Pixel
 
 
 def test_create_new_pixel():

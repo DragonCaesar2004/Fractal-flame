@@ -1,7 +1,7 @@
-from src.project_types import Pixel, ImageCoordsAlias
+from src.project_types import ImageCoordsAlias, Pixel
 
 
-def gamma_correction(pixels: dict[ImageCoordsAlias, Pixel], GAMMA_COEFF: float) -> None:
+def gamma_correction(pixels: dict[ImageCoordsAlias, Pixel], gamma_coeff: float) -> None:
     """
     Применяет гамма-коррекцию к пикселям изображения.
 
@@ -15,9 +15,9 @@ def gamma_correction(pixels: dict[ImageCoordsAlias, Pixel], GAMMA_COEFF: float) 
         max_log = max(max_log, pixel.normal)
     # Защита от деления на 0
     if max_log == 0:
-        return  # Все нормали - ноль, изменений быть не должно
+        return  # Все нормали - ноль, изменений быть не должно  # noqa: RUF003
     for pixel in pixels.values():
         pixel.normal /= max_log
-        pixel.red = int(pixel.red * pixel.normal ** (1.0 / GAMMA_COEFF))
-        pixel.green = int(pixel.green * pixel.normal ** (1.0 / GAMMA_COEFF))
-        pixel.blue = int(pixel.blue * pixel.normal ** (1.0 / GAMMA_COEFF))
+        pixel.red = int(pixel.red * pixel.normal ** (1.0 / gamma_coeff))
+        pixel.green = int(pixel.green * pixel.normal ** (1.0 / gamma_coeff))
+        pixel.blue = int(pixel.blue * pixel.normal ** (1.0 / gamma_coeff))

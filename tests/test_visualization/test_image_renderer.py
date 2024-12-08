@@ -1,5 +1,6 @@
 import pytest
 from PIL import Image
+
 from src.project_types import Pixel
 from src.visualization.image_renderer import create_fractal_image
 

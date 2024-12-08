@@ -1,16 +1,18 @@
-import pytest
 import random
+from math import atan2, cos, pi, sin, sqrt
+
+import pytest
+
 from src.config import (
     AFFINE_TRANSFORMATIONS_NUM,
     LEFT_BOUND_OF_AFFINE_COEFFS,
     RIGHT_BOUND_OF_AFFINE_COEFFS,
 )
 from src.core.transformations import (
-    generate_valid_affine_transformation,
-    generate_probabilities,
     apply_variations,
+    generate_probabilities,
+    generate_valid_affine_transformation,
 )
-from math import sin, cos, sqrt, atan2, pi
 
 # Фиксируем seed для тестирования случайности
 random.seed(1)
@@ -143,23 +145,30 @@ def test_apply_variations_polar_function():
         sqrt(x_cur**2 + y_cur**2) - 1,
     )
 
+
 def test_apply_variations_handkerchief_function():
     transformer_function_set = {6}
     x_cur, y_cur = 3, 4
     x_var, y_var = apply_variations(transformer_function_set, x_cur, y_cur)
     assert (x_var, y_var) == (
-        sqrt(x_cur**2 + y_cur**2) * sin(atan2(y_cur, x_cur) + sqrt(x_cur**2 + y_cur**2)),
-        sqrt(x_cur**2 + y_cur**2) * cos(atan2(y_cur, x_cur) - sqrt(x_cur**2 + y_cur**2)),
+        sqrt(x_cur**2 + y_cur**2)
+        * sin(atan2(y_cur, x_cur) + sqrt(x_cur**2 + y_cur**2)),
+        sqrt(x_cur**2 + y_cur**2)
+        * cos(atan2(y_cur, x_cur) - sqrt(x_cur**2 + y_cur**2)),
     )
+
 
 def test_apply_variations_heart_function():
     transformer_function_set = {7}
     x_cur, y_cur = -3, 4
     x_var, y_var = apply_variations(transformer_function_set, x_cur, y_cur)
     assert (x_var, y_var) == (
-        sqrt(x_cur**2 + y_cur**2) * sin(atan2(y_cur, x_cur) * sqrt(x_cur**2 + y_cur**2)),
-        -sqrt(x_cur**2 + y_cur**2) * cos(atan2(y_cur, x_cur) * sqrt(x_cur**2 + y_cur**2)),
+        sqrt(x_cur**2 + y_cur**2)
+        * sin(atan2(y_cur, x_cur) * sqrt(x_cur**2 + y_cur**2)),
+        -sqrt(x_cur**2 + y_cur**2)
+        * cos(atan2(y_cur, x_cur) * sqrt(x_cur**2 + y_cur**2)),
     )
+
 
 def test_apply_variations_disc_function():
     transformer_function_set = {8}
@@ -169,6 +178,7 @@ def test_apply_variations_disc_function():
         atan2(y_cur, x_cur) / pi * sin(pi * sqrt(x_cur**2 + y_cur**2)),
         atan2(y_cur, x_cur) / pi * cos(pi * sqrt(x_cur**2 + y_cur**2)),
     )
+
 
 def test_apply_variations_spiral_function():
     transformer_function_set = {9}
@@ -180,6 +190,7 @@ def test_apply_variations_spiral_function():
         1 / norm * (sin(atan2(y_cur, x_cur) - norm)),
     )
 
+
 def test_apply_variations_hyperbolic_function():
     transformer_function_set = {10}
     x_cur, y_cur = 2, 1
@@ -189,6 +200,7 @@ def test_apply_variations_hyperbolic_function():
         sin(atan2(y_cur, x_cur)) / norm,
         cos(atan2(y_cur, x_cur)) * norm,
     )
+
 
 def test_apply_variations_diamond_function():
     transformer_function_set = {11}

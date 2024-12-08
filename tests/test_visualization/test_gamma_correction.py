@@ -1,5 +1,6 @@
 import pytest
-from src.project_types import Pixel, ImageCoordsAlias
+
+from src.project_types import ImageCoordsAlias, Pixel
 from src.visualization.gamma_correction import gamma_correction
 
 
@@ -56,7 +57,7 @@ def test_color_correction(sample_pixels, GAMMA_COEFF):
 # Тест работы функции при пустом вводе
 def test_empty_pixels():
     pixels: dict[ImageCoordsAlias, Pixel] = {}
-    gamma_correction(pixels, GAMMA_COEFF=2.2)  # Без ошибок
+    gamma_correction(pixels, gamma_coeff=2.2)  # Без ошибок
     assert len(pixels) == 0  # Пустой ввод = пустой результат
 
 
@@ -65,7 +66,7 @@ def test_zero_normal():
     pixels = {
         (0, 0): Pixel(0, 0, 0, 0),
     }
-    gamma_correction(pixels, GAMMA_COEFF=2.2)
+    gamma_correction(pixels, gamma_coeff=2.2)
 
     pixel = pixels[(0, 0)]
 

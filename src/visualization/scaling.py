@@ -7,9 +7,9 @@ def scale_to_image_coordinates(
 ) -> ImageCoordsAlias:
     """
     Преобразует координаты в диапазоне (x_min, x_max, y_min, y_max) в пиксельные координаты.
+
     Масштабируем x и y в размеры изображения (с учётом диапазонов)
     """
-
     image_x = int(
         (coord_x - FRACTAL_LIMITS.x_min)
         / (FRACTAL_LIMITS.x_max - FRACTAL_LIMITS.x_min)

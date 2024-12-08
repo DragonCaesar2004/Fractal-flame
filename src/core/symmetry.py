@@ -1,4 +1,5 @@
 import math
+
 from src.project_types import PointCoordsAlias
 
 

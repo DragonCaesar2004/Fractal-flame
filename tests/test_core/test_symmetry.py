@@ -1,4 +1,5 @@
 import math
+
 from src.core.symmetry import apply_symmetry
 
 
@@ -29,10 +30,6 @@ def test_general_point():
 
 def test_custom_symmetry_axes_count():
     """Тестируем с изменением количества осей симметрии."""
-
     SYMMETRY_AXES_COUNT = 6  # Устанавливаем 6 осей симметрии
     result = apply_symmetry(1, 1, SYMMETRY_AXES_COUNT)
     assert len(result) == SYMMETRY_AXES_COUNT
-
-
-

@@ -1,17 +1,17 @@
 import random
 
-from src.project_types import Pixel, ImageCoordsAlias,UserData
 from src.config import (
     DISCARDED_ITERATION_NUMBER,
-    SYMMETRY_AXES_COUNT,
     FRACTAL_LIMITS,
+    SYMMETRY_AXES_COUNT,
 )
-from src.core.utils import select_random_element_with_probabilities
-from src.core.transformations import apply_variations
-from src.core.symmetry import apply_symmetry
 from src.core.creating_pixel import create_pixel
-
+from src.core.symmetry import apply_symmetry
+from src.core.transformations import apply_variations
+from src.core.utils import select_random_element_with_probabilities
+from src.project_types import ImageCoordsAlias, Pixel, UserData
 from src.visualization.scaling import scale_to_image_coordinates
+
 
 def process_single_start_point(
     args: tuple[UserData, list, list]

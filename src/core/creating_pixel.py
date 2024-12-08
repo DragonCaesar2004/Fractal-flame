@@ -1,4 +1,4 @@
-from src.project_types import Pixel, ImageCoordsAlias, AffineTransformation
+from src.project_types import AffineTransformation, ImageCoordsAlias, Pixel
 
 
 def create_pixel(
@@ -8,12 +8,11 @@ def create_pixel(
     image_y: int,
 ) -> None:
     """
-    Создает объект типа Pixel, добавляет в словарь pixels,
-    если по заданным координатам image_x, image_y нет его нет в pixels.
+    Создает объект типа Pixel, добавляет в словарь pixels.
 
+    Если по заданным координатам image_x, image_y нет его нет в pixels.
     Иначе обновляет цвет пикселя. Также в любом случае обновляет счетчик пикселя.
     """
-
     if (image_x, image_y) in pixels:
         pixels[(image_x, image_y)].update_color(
             affine_transf.red, affine_transf.green, affine_transf.blue

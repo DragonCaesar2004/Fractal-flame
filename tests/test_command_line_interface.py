@@ -1,13 +1,14 @@
 import pytest
+
 from src.command_line_interface import (
     CommandLineInterface,
 )  # Предполагаемое имя модуля и класса
-from src.custom_exception import CustomException
 from src.config import MAX_ITERATION_NUM
+from src.custom_exception import CustomError
 from src.project_types import UserData
 
 
-@pytest.fixture()
+@pytest.fixture
 def cli_fixture():
     return CommandLineInterface()
 
@@ -26,7 +27,7 @@ def test_get_size_multiple_args(monkeypatch, cli_fixture):
     side_message = "высоту"
     min_size = 5
     max_size = 2000
-    with pytest.raises(CustomException) as exc_info:
+    with pytest.raises(CustomError) as exc_info:
         cli_fixture._get_size(side_message, min_size, max_size)
     assert str(exc_info.value) == cli_fixture._get_only_one_arg_message()
 
@@ -36,7 +37,7 @@ def test_get_size_non_int_input(monkeypatch, cli_fixture):
     side = "высоту"
     min_size = 5
     max_size = 2000
-    with pytest.raises(CustomException) as exc_info:
+    with pytest.raises(CustomError) as exc_info:
         cli_fixture._get_size(side, min_size, max_size)
     assert str(exc_info.value) == cli_fixture._get_not_int_message()
 
@@ -47,7 +48,7 @@ def test_get_size_less_than_min(monkeypatch, cli_fixture):
     side = "высоту"
     min_size = 5
     max_size = 2000
-    with pytest.raises(CustomException) as exc_info:
+    with pytest.raises(CustomError) as exc_info:
         cli_fixture._get_size(side, min_size, max_size)
     assert str(exc_info.value) == "Размер должен быть больше или равен " + str(min_size)
 
@@ -58,7 +59,7 @@ def test_get_size_more_than_max(monkeypatch, cli_fixture):
     side = "высоту"
     min_size = 5
     max_size = 2000
-    with pytest.raises(CustomException) as exc_info:
+    with pytest.raises(CustomError) as exc_info:
         cli_fixture._get_size(side, min_size, max_size)
     assert str(exc_info.value) == "Размер должен быть меньше или равен " + str(max_size)
 
@@ -110,7 +111,7 @@ def test_valid_iterations_input(monkeypatch, cli_fixture):
 def test_negative_iterations_input(monkeypatch, cli_fixture):
 
     monkeypatch.setattr("builtins.input", lambda input: "-5000")
-    with pytest.raises(CustomException) as exc_info:
+    with pytest.raises(CustomError) as exc_info:
         cli_fixture._get_iterations_number()
     assert str(exc_info.value) == "Ввод должен быть положительным числом."
 
@@ -118,7 +119,7 @@ def test_negative_iterations_input(monkeypatch, cli_fixture):
 def test_exceeding_iterations_input(monkeypatch, cli_fixture):
 
     monkeypatch.setattr("builtins.input", lambda input: str(MAX_ITERATION_NUM + 1))
-    with pytest.raises(CustomException) as exc_info:
+    with pytest.raises(CustomError) as exc_info:
         cli_fixture._get_iterations_number()
     assert (
         str(exc_info.value)
@@ -128,14 +129,14 @@ def test_exceeding_iterations_input(monkeypatch, cli_fixture):
 
 def test_non_integer_input(monkeypatch, cli_fixture):
     monkeypatch.setattr("builtins.input", lambda input: "три")
-    with pytest.raises(CustomException) as exc_info:
+    with pytest.raises(CustomError) as exc_info:
         cli_fixture._get_iterations_number()
     assert str(exc_info.value) == "Ввод должен быть целым числом."
 
 
 def test_float_input(monkeypatch, cli_fixture):
     monkeypatch.setattr("builtins.input", lambda input: "123.45")
-    with pytest.raises(CustomException) as exc_info:
+    with pytest.raises(CustomError) as exc_info:
         cli_fixture._get_iterations_number()
     assert str(exc_info.value) == "Ввод должен быть целым числом."
 
@@ -147,21 +148,21 @@ def test_get_transformer_function_set_valid(monkeypatch, cli_fixture):
 
 def test_get_transformer_function_set_empty_input(monkeypatch, cli_fixture):
     monkeypatch.setattr("builtins.input", lambda input: "")
-    with pytest.raises(CustomException) as exc:
+    with pytest.raises(CustomError) as exc:
         cli_fixture._get_transformer_function_set()
     assert str(exc.value) == "Введите не пустую строку."
 
 
 def test_get_transformer_function_set_invalid_range(monkeypatch, cli_fixture):
     monkeypatch.setattr("builtins.input", lambda input: "1000")
-    with pytest.raises(CustomException) as exc:
+    with pytest.raises(CustomError) as exc:
         cli_fixture._get_transformer_function_set()
     assert str(exc.value) == "Вы ввели число не из заданного диапазона."
 
 
 def test_get_transformer_function_set_duplicate(monkeypatch, cli_fixture):
     monkeypatch.setattr("builtins.input", lambda input: "1 2 2")
-    with pytest.raises(CustomException) as exc:
+    with pytest.raises(CustomError) as exc:
         cli_fixture._get_transformer_function_set()
     assert str(exc.value) == "Вы ввели повторяющееся значение."
 
@@ -171,7 +172,7 @@ def test_int_validate_valid(cli_fixture):
 
 
 def test_int_validate_invalid(cli_fixture):
-    with pytest.raises(CustomException) as exc:
+    with pytest.raises(CustomError) as exc:
         cli_fixture._int_validate("abc")
     assert str(exc.value) == "Ввод должен быть целым числом."
 

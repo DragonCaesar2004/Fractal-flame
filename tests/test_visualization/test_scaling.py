@@ -1,5 +1,7 @@
-import pytest
 from typing import NamedTuple
+
+import pytest
+
 from src.visualization.scaling import scale_to_image_coordinates
 
 

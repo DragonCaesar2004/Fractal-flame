@@ -1,4 +1,5 @@
 import random
+
 from src.project_types import AffineTransformation
 
 

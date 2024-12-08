@@ -1,6 +1,7 @@
-from frozendict import frozendict
-from math import sin, cos, atan2, sqrt, pi
+from math import atan2, cos, pi, sin, sqrt
 from typing import NamedTuple
+
+from frozendict import frozendict
 
 # минимальные и максимальные значения для длины / ширины изображения
 MIN_WIDTH = 100
@@ -82,6 +83,8 @@ TRANSFORMER_FUNCTIONS = frozendict(
 
 
 class FractalLimits(NamedTuple):
+    """Именнованный кортеж для хранения максимальных и минимальных значений генерируемых точек."""
+
     x_min: float = -1.0
     x_max: float = 1.0
     y_min: float = -1.0

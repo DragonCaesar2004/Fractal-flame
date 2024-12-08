@@ -1,5 +1,6 @@
 from PIL import Image
-from src.project_types import Pixel, ImageCoordsAlias
+
+from src.project_types import ImageCoordsAlias, Pixel
 
 
 def create_fractal_image(

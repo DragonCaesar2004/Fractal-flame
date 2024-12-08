@@ -1,14 +1,14 @@
-from src.user_interface import UserInterface
-from src.project_types import UserData
-from src.custom_exception import CustomException
 from src.config import (
+    MAX_HEIGHT,
+    MAX_ITERATION_NUM,
+    MAX_WIDTH,
     MIN_HEIGHT,
     MIN_WIDTH,
-    MAX_HEIGHT,
-    MAX_WIDTH,
-    MAX_ITERATION_NUM,
     TRANSFORMER_FUNCTIONS,
 )
+from src.custom_exception import CustomError
+from src.project_types import UserData
+from src.user_interface import UserInterface
 
 
 class CommandLineInterface(UserInterface):
@@ -51,25 +51,25 @@ class CommandLineInterface(UserInterface):
         Принимает название стороны (ширина или высота), минимальный
         и максимальный размер, запрашивает у пользователя ввод и
         проверяет, что введенное значение соответствует условиям.
-        В случае ошибки генерирует CustomException с соответствующим
+        В случае ошибки генерирует CustomError с соответствующим
         сообщением.
         """
         size_message = self._get_size_message(side)
         entered_size_str = input(size_message)
 
         if len(entered_size_str.split()) != 1:
-            raise CustomException(self._get_only_one_arg_message())
+            raise CustomError(self._get_only_one_arg_message())
 
         entered_size = self._int_validate(entered_size_str)
 
         if entered_size < min_size:
-            raise CustomException(self._get_less_than_min_message() + str(min_size))
+            raise CustomError(self._get_less_than_min_message() + str(min_size))
 
         if entered_size > max_size:
-            raise CustomException(self._get_more_than_max_message() + str(max_size))
+            raise CustomError(self._get_more_than_max_message() + str(max_size))
         return entered_size
 
-    def _get_size_message(self, side) -> str:
+    def _get_size_message(self, side: str) -> str:
         return f"Введите {side} изображения: "
 
     def _get_only_one_arg_message(self) -> str:
@@ -97,15 +97,15 @@ class CommandLineInterface(UserInterface):
         Пользователь вводит число итераций, которое проверяется на
         соответствие условиям: должно быть больше нуля и не превышать
         максимальное разрешенное количество итераций. В случае ошибки
-        генерируется CustomException с соответствующим сообщением.
+        генерируется CustomError с соответствующим сообщением.
         """
         entered_iterations_number_str = input(self._get_iterations_number_message())
         entered_iterations_number = self._int_validate(entered_iterations_number_str)
         if entered_iterations_number <= 0:
-            raise CustomException(self._get_more_than_zero_message())
+            raise CustomError(self._get_more_than_zero_message())
 
         if entered_iterations_number > MAX_ITERATION_NUM:
-            raise CustomException(self._get_iter_num_more_than_max())
+            raise CustomError(self._get_iter_num_more_than_max())
 
         return entered_iterations_number
 
@@ -126,29 +126,29 @@ class CommandLineInterface(UserInterface):
         должен ввести их номера через пробел. Введенные данные проверяются на
         наличие ошибок: не должно быть пустого ввода, номера должны
         находиться в допустимом диапазоне и не должно быть дубликатов.
-        В случае ошибок генерируются CustomException с соответствующими
+        В случае ошибок генерируются CustomError с соответствующими
         сообщениями.
         """
         print(self._get_transformer_function_listing())
-        entered_set = input(self._get_enter_func_set_message())
-        if len(entered_set) == 0:
-            raise CustomException(self._get_empty_input_message())
+        entered_list = input(self._get_enter_func_set_message()).split()
+        if len(entered_list) == 0:
+            raise CustomError(self._get_empty_input_message())
 
         max_num = len(TRANSFORMER_FUNCTIONS)
         functions_num_set = set()
-        for num_str in entered_set.split():
+        for num_str in entered_list:
             num = self._int_validate(num_str)
             if not (0 <= num <= max_num):
-                raise CustomException(self._get_not_in_range_message())
+                raise CustomError(self._get_not_in_range_message())
             if num in functions_num_set:
-                raise CustomException(self._get_duplicate_input())
+                raise CustomError(self._get_duplicate_input())
             functions_num_set.add(num)
         return functions_num_set
 
-    def _get_duplicate_input(self):
+    def _get_duplicate_input(self) -> str:
         return "Вы ввели повторяющееся значение."
 
-    def _get_not_in_range_message(self):
+    def _get_not_in_range_message(self) -> str:
         return "Вы ввели число не из заданного диапазона."
 
     def _int_validate(self, number_str: str) -> int:
@@ -156,14 +156,14 @@ class CommandLineInterface(UserInterface):
         Валидирует строку, преобразуя её в целое число.
 
         Этот метод пытается преобразовать переданную строку в целое число.
-        Если преобразование не удается, генерируется CustomException
+        Если преобразование не удается, генерируется CustomError
         с соответствующим сообщением.
 
         """
         try:
             number = int(number_str)
         except Exception as e:
-            raise CustomException(self._get_not_int_message()) from e
+            raise CustomError(self._get_not_int_message()) from e
         return number
 
     def _get_transformer_function_listing(self) -> str:
@@ -174,7 +174,6 @@ class CommandLineInterface(UserInterface):
         и названия всех доступных функций преобразования.
         Каждая функция отображается с её индексом для удобства выбора.
         """
-
         result_message = """Выберите несколько трансфармирующих функций из списка.\n"""
 
         for ind, function in enumerate(TRANSFORMER_FUNCTIONS):
