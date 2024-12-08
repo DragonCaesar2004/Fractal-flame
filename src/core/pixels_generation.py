@@ -1,6 +1,7 @@
 import random
 
 from src.config import (
+    COUNT_START_POINTS,
     DISCARDED_ITERATION_NUMBER,
     FRACTAL_LIMITS,
     SYMMETRY_AXES_COUNT,
@@ -8,8 +9,8 @@ from src.config import (
 from src.core.creating_pixel import create_pixel
 from src.core.symmetry import apply_symmetry
 from src.core.transformations import apply_variations
-from src.utils.random_element_selection import select_random_element_with_probabilities
 from src.project_types import ImageCoordsAlias, Pixel, UserData
+from src.utils.random_element_selection import select_random_element_with_probabilities
 from src.visualization.scaling import scale_to_image_coordinates
 
 
@@ -31,9 +32,8 @@ def process_single_start_point(
     # Инициализируем текущую позицию случайной стартовой точкой
     x_cur = random.uniform(FRACTAL_LIMITS.x_min, FRACTAL_LIMITS.x_max)
     y_cur = random.uniform(FRACTAL_LIMITS.y_min, FRACTAL_LIMITS.y_max)
-
-    # Выполняем заданное количество итераций
-    for iter_num in range(-DISCARDED_ITERATION_NUMBER, user_data.iterations_number):
+    result_iter_num = user_data.iterations_number // COUNT_START_POINTS
+    for iter_num in range(-DISCARDED_ITERATION_NUMBER, result_iter_num):
         # Выбираем случайное аффинное преобразование на основе вероятностей
         affine_transf = select_random_element_with_probabilities(
             affine_transformations, affine_probabilities

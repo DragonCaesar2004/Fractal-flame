@@ -1,10 +1,16 @@
+from multiprocessing import cpu_count
+
 from src.config import (
+    AFFINE_TRANSFORMATIONS_NUM,
+    COUNT_START_POINTS,
+    GAMMA_COEFF,
     MAX_HEIGHT,
     MAX_ITERATION_NUM,
     MAX_WIDTH,
     MIN_HEIGHT,
     MIN_WIDTH,
     TRANSFORMER_FUNCTIONS,
+    USING_MULTIPROCESSING,
 )
 from src.custom_exception import CustomError
 from src.project_types import UserData
@@ -185,3 +191,20 @@ class CommandLineInterface(UserInterface):
 
     def _get_empty_input_message(self) -> str:
         return "Введите не пустую строку."
+
+    def show_config(self) -> None:
+        """
+        Выводит конфигурацию в консоль.
+
+        Включая количество параллельных процессов, количество аффинных преобразований,
+        количество стартовых точек и гамма-коэффициент.
+        """
+        process_count = cpu_count() if USING_MULTIPROCESSING else 1
+        print(self._get_result_config_message(process_count))
+
+    def _get_result_config_message(self, process_count: int) -> str:
+        return f"""Количество параллельных процессов = {process_count}
+Количество аффинных преобразований = {AFFINE_TRANSFORMATIONS_NUM}
+Количество стартовых точек = {COUNT_START_POINTS}
+Гамма-коэффициент = {GAMMA_COEFF}
+"""

@@ -23,11 +23,7 @@ def timing_decorator(func: Callable) -> Callable:
             pass
     """
 
-    def wrapper(
-        *args: tuple[Any, ...], **kwargs: dict[Any, Any]
-    ) -> (
-        Any
-    ):  # noqa: ANN401 чтобы ruff не ругался на динамически возвращаемый тип данных
+    def wrapper(*args: tuple[Any, ...], **kwargs: dict[Any, Any]) -> Any:
         start_time = time.time()  # Начало замера
         result = func(*args, **kwargs)  # Выполнение основной логики функции
         end_time = time.time()  # Конец замера

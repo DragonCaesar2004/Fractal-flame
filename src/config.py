@@ -4,37 +4,38 @@ from typing import NamedTuple
 from frozendict import frozendict
 
 # минимальные и максимальные значения для длины / ширины изображения
-MIN_WIDTH = 100
-MAX_WIDTH = 5000
-MIN_HEIGHT = 100
-MAX_HEIGHT = 5000
+MIN_WIDTH: int = 100
+MAX_WIDTH: int = 5000
+MIN_HEIGHT: int = 100
+MAX_HEIGHT: int = 5000
 
 # максимальное число итераций
-MAX_ITERATION_NUM = 50_000_000
+MAX_ITERATION_NUM: int = 50_000_000
 
 # кол-во аффинных преобразований, применяемых к точке на каждой итерации
-AFFINE_TRANSFORMATIONS_NUM = 3
+AFFINE_TRANSFORMATIONS_NUM: int = 3
 
 # кол-во стартовых точек
-COUNT_START_POINTS = 4
+COUNT_START_POINTS: int = 4
 
 # левая и правая границы для коэфициентов аффиннго преобразования
-LEFT_BOUND_OF_AFFINE_COEFFS = -1
-RIGHT_BOUND_OF_AFFINE_COEFFS = 1
+LEFT_BOUND_OF_AFFINE_COEFFS: int = -1
+RIGHT_BOUND_OF_AFFINE_COEFFS: int = 1
 
 # количество первых итераций, которые булут пропущены, для того чтобы
 # убрать влияние начальной точки.
-DISCARDED_ITERATION_NUMBER = 50
+DISCARDED_ITERATION_NUMBER: int = 50
 
 # коэфф-т гамма коррекции
-GAMMA_COEFF = 2.4
+GAMMA_COEFF: float = 2.4
 
 # параметр симметрии
-SYMMETRY_AXES_COUNT = 3
+SYMMETRY_AXES_COUNT: int = 3
 
+USING_MULTIPROCESSING: bool = False
 
 # словарь вариаций frozendict[name]= function
-TRANSFORMER_FUNCTIONS = frozendict(
+TRANSFORMER_FUNCTIONS: frozendict = frozendict(
     {
         "linear": lambda x, y: (x, y),
         "sinusoidal": lambda x, y: (sin(x), sin(y)),
@@ -93,4 +94,4 @@ class FractalLimits(NamedTuple):
 
 FRACTAL_LIMITS = FractalLimits()
 
-OUTPUT_ADDRESS = "fractal_flame.png"
+OUTPUT_ADDRESS: str = "fractal_flame.png"

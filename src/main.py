@@ -2,6 +2,7 @@ import logging
 import platform
 
 from src.command_line_interface import CommandLineInterface
+from src.config import USING_MULTIPROCESSING
 from src.core.fractal_manager import Manager
 
 logging.basicConfig()
@@ -27,8 +28,8 @@ def main() -> None:
         user_data = cli.get_user_data()
 
         manager = Manager(user_data)
-        manager.create_fractal_flame(multistream=True)
-
+        manager.create_fractal_flame(multistream=USING_MULTIPROCESSING)
+        cli.show_config()
     except Exception as e:
         print(e)
 
