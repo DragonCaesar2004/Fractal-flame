@@ -1,39 +1,39 @@
 from frozendict import frozendict
 from math import sin, cos, atan2, sqrt, pi
-from enum import Enum
+from typing import NamedTuple
 
 # минимальные и максимальные значения для длины / ширины изображения
-min_width = 100
-max_width = 5000
-min_height = 100
-max_height = 5000
+MIN_WIDTH = 100
+MAX_WIDTH = 5000
+MIN_HEIGHT = 100
+MAX_HEIGHT = 5000
 
 # максимальное число итераций
-max_iteration_num = 50_000_000
+MAX_ITERATION_NUM = 50_000_000
 
 # кол-во аффинных преобразований, применяемых к точке на каждой итерации
-affine_transformations_num = 3
+AFFINE_TRANSFORMATIONS_NUM = 3
 
 # кол-во стартовых точек
-count_start_points = 4
+COUNT_START_POINTS = 4
 
 # левая и правая границы для коэфициентов аффиннго преобразования
-left_bound_of_affine_coeffs = -1
-right_bound_of_affine_coeffs = 1
+LEFT_BOUND_OF_AFFINE_COEFFS = -1
+RIGHT_BOUND_OF_AFFINE_COEFFS = 1
 
 # количество первых итераций, которые булут пропущены, для того чтобы
 # убрать влияние начальной точки.
-discarded_iteration_number = 50
+DISCARDED_ITERATION_NUMBER = 50
 
 # коэфф-т гамма коррекции
-gamma_coeff = 3.5
+GAMMA_COEFF = 3.5
 
 # параметр симметрии
-symmetry_axes_count = 3
+SYMMETRY_AXES_COUNT = 3
 
 
 # словарь вариаций frozendict[name]= function
-transformer_functions = frozendict(
+TRANSFORMER_FUNCTIONS = frozendict(
     {
         "linear": lambda x, y: (x, y),
         "sinusoidal": lambda x, y: (sin(x), sin(y)),
@@ -81,8 +81,11 @@ transformer_functions = frozendict(
 )
 
 
-class FractalLimits(Enum):
+class FractalLimits(NamedTuple):
     x_min: float = -1.0
     x_max: float = 1.0
     y_min: float = -1.0
     y_max: float = 1.0
+
+
+FRACTAL_LIMITS = FractalLimits()

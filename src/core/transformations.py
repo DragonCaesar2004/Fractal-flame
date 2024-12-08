@@ -1,9 +1,9 @@
 import random
 
 from src.config import (
-    left_bound_of_affine_coeffs,
-    right_bound_of_affine_coeffs,
-    transformer_functions,
+    LEFT_BOUND_OF_AFFINE_COEFFS,
+    RIGHT_BOUND_OF_AFFINE_COEFFS,
+    TRANSFORMER_FUNCTIONS,
 )
 from src.project_types import AffineTransformation, PointCoordsAlias
 
@@ -21,10 +21,10 @@ y′ = dx + ey + f
 
 def generate_valid_affine_transformation() -> AffineTransformation:
     while True:
-        a = random.uniform(left_bound_of_affine_coeffs, right_bound_of_affine_coeffs)
-        b = random.uniform(left_bound_of_affine_coeffs, right_bound_of_affine_coeffs)
-        d = random.uniform(left_bound_of_affine_coeffs, right_bound_of_affine_coeffs)
-        e = random.uniform(left_bound_of_affine_coeffs, right_bound_of_affine_coeffs)
+        a = random.uniform(LEFT_BOUND_OF_AFFINE_COEFFS, RIGHT_BOUND_OF_AFFINE_COEFFS)
+        b = random.uniform(LEFT_BOUND_OF_AFFINE_COEFFS, RIGHT_BOUND_OF_AFFINE_COEFFS)
+        d = random.uniform(LEFT_BOUND_OF_AFFINE_COEFFS, RIGHT_BOUND_OF_AFFINE_COEFFS)
+        e = random.uniform(LEFT_BOUND_OF_AFFINE_COEFFS, RIGHT_BOUND_OF_AFFINE_COEFFS)
 
         # Проверка указанных условий
         if (
@@ -34,10 +34,10 @@ def generate_valid_affine_transformation() -> AffineTransformation:
         ):
             # Генерация оставшихся коэффициентов c и f
             c = random.uniform(
-                left_bound_of_affine_coeffs, right_bound_of_affine_coeffs
+                LEFT_BOUND_OF_AFFINE_COEFFS, RIGHT_BOUND_OF_AFFINE_COEFFS
             )
             f = random.uniform(
-                left_bound_of_affine_coeffs, right_bound_of_affine_coeffs
+                LEFT_BOUND_OF_AFFINE_COEFFS, RIGHT_BOUND_OF_AFFINE_COEFFS
             )
 
             # Генерация яркости каждого цвета в диапозоне от 0 до 255. 8 бит. предствление цвета
@@ -68,9 +68,9 @@ def apply_variations(
     """
     x_var, y_var = 0, 0
 
-    for ind, variation in enumerate(transformer_functions):
+    for ind, variation in enumerate(TRANSFORMER_FUNCTIONS):
         if ind in transformer_function_set:
-            x_v, y_v = transformer_functions[variation](x_cur, y_cur)
+            x_v, y_v = TRANSFORMER_FUNCTIONS[variation](x_cur, y_cur)
             x_var += x_v
             y_var += y_v
     return x_var, y_var

@@ -2,12 +2,12 @@ from src.user_interface import UserInterface
 from src.project_types import UserData
 from src.custom_exception import CustomException
 from src.config import (
-    min_height,
-    min_width,
-    max_height,
-    max_width,
-    max_iteration_num,
-    transformer_functions,
+    MIN_HEIGHT,
+    MIN_WIDTH,
+    MAX_HEIGHT,
+    MAX_WIDTH,
+    MAX_ITERATION_NUM,
+    TRANSFORMER_FUNCTIONS,
 )
 
 
@@ -29,10 +29,10 @@ class CommandLineInterface(UserInterface):
         UserData с полученными значениями.
         """
         img_width_in_pixels: int = self._get_size(
-            self._get_width_input_message(), min_width, max_width
+            self._get_width_input_message(), MIN_WIDTH, MAX_WIDTH
         )
         img_height_in_pixels: int = self._get_size(
-            self._get_height_input_message(), min_height, max_height
+            self._get_height_input_message(), MIN_HEIGHT, MAX_HEIGHT
         )
         iterations_number: int = self._get_iterations_number()
         transformer_function_set: set[int] = self._get_transformer_function_set()
@@ -104,7 +104,7 @@ class CommandLineInterface(UserInterface):
         if entered_iterations_number <= 0:
             raise CustomException(self._get_more_than_zero_message())
 
-        if entered_iterations_number > max_iteration_num:
+        if entered_iterations_number > MAX_ITERATION_NUM:
             raise CustomException(self._get_iter_num_more_than_max())
 
         return entered_iterations_number
@@ -134,7 +134,7 @@ class CommandLineInterface(UserInterface):
         if len(entered_set) == 0:
             raise CustomException(self._get_empty_input_message())
 
-        max_num = len(transformer_functions)
+        max_num = len(TRANSFORMER_FUNCTIONS)
         functions_num_set = set()
         for num_str in entered_set.split():
             num = self._int_validate(num_str)
@@ -177,7 +177,7 @@ class CommandLineInterface(UserInterface):
 
         result_message = """Выберите несколько трансфармирующих функций из списка.\n"""
 
-        for ind, function in enumerate(transformer_functions):
+        for ind, function in enumerate(TRANSFORMER_FUNCTIONS):
             result_message += str(ind) + " " + function + "\n"
         return result_message
 

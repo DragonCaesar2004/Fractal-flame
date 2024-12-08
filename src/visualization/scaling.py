@@ -1,4 +1,4 @@
-from src.config import FractalLimits
+from src.config import FRACTAL_LIMITS
 from src.project_types import ImageCoordsAlias
 
 
@@ -11,13 +11,13 @@ def scale_to_image_coordinates(
     """
 
     image_x = int(
-        (coord_x - FractalLimits.x_min.value)
-        / (FractalLimits.x_max.value - FractalLimits.x_min.value)
+        (coord_x - FRACTAL_LIMITS.x_min)
+        / (FRACTAL_LIMITS.x_max - FRACTAL_LIMITS.x_min)
         * (img_width - 1)
     )
     image_y = int(
-        (coord_y - FractalLimits.y_min.value)
-        / (FractalLimits.y_max.value - FractalLimits.y_min.value)
+        (coord_y - FRACTAL_LIMITS.y_min)
+        / (FRACTAL_LIMITS.y_max - FRACTAL_LIMITS.y_min)
         * (img_height - 1)
     )
 

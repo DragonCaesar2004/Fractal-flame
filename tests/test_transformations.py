@@ -1,9 +1,9 @@
 import pytest
 import random
 from src.config import (
-    affine_transformations_num,
-    left_bound_of_affine_coeffs,
-    right_bound_of_affine_coeffs,
+    AFFINE_TRANSFORMATIONS_NUM,
+    LEFT_BOUND_OF_AFFINE_COEFFS,
+    RIGHT_BOUND_OF_AFFINE_COEFFS,
 )
 from src.core.transformations import (
     generate_valid_affine_transformation,
@@ -21,26 +21,26 @@ def affine_coefficients():
     # Генерация аффинных коэффициентов для будущих тестов
     return [
         generate_valid_affine_transformation()
-        for _ in range(affine_transformations_num)
+        for _ in range(AFFINE_TRANSFORMATIONS_NUM)
     ]
 
 
 @pytest.fixture
 def affine_probabilities():
     # Генерация вероятностей
-    return generate_probabilities(affine_transformations_num)
+    return generate_probabilities(AFFINE_TRANSFORMATIONS_NUM)
 
 
 def test_generate_valid_affine_coefficients():
     """Тест генерации корректных коэффициентов."""
     affine_trans = generate_valid_affine_transformation()
 
-    assert left_bound_of_affine_coeffs <= affine_trans.a <= right_bound_of_affine_coeffs
-    assert left_bound_of_affine_coeffs <= affine_trans.b <= right_bound_of_affine_coeffs
-    assert left_bound_of_affine_coeffs <= affine_trans.d <= right_bound_of_affine_coeffs
-    assert left_bound_of_affine_coeffs <= affine_trans.e <= right_bound_of_affine_coeffs
-    assert left_bound_of_affine_coeffs <= affine_trans.c <= right_bound_of_affine_coeffs
-    assert left_bound_of_affine_coeffs <= affine_trans.f <= right_bound_of_affine_coeffs
+    assert LEFT_BOUND_OF_AFFINE_COEFFS <= affine_trans.a <= RIGHT_BOUND_OF_AFFINE_COEFFS
+    assert LEFT_BOUND_OF_AFFINE_COEFFS <= affine_trans.b <= RIGHT_BOUND_OF_AFFINE_COEFFS
+    assert LEFT_BOUND_OF_AFFINE_COEFFS <= affine_trans.d <= RIGHT_BOUND_OF_AFFINE_COEFFS
+    assert LEFT_BOUND_OF_AFFINE_COEFFS <= affine_trans.e <= RIGHT_BOUND_OF_AFFINE_COEFFS
+    assert LEFT_BOUND_OF_AFFINE_COEFFS <= affine_trans.c <= RIGHT_BOUND_OF_AFFINE_COEFFS
+    assert LEFT_BOUND_OF_AFFINE_COEFFS <= affine_trans.f <= RIGHT_BOUND_OF_AFFINE_COEFFS
 
     assert 0 <= affine_trans.red <= 255
     assert 0 <= affine_trans.blue <= 255
@@ -91,7 +91,7 @@ def test_apply_variations_multiple_functions():
 
 def test_apply_variations_no_functions():
     # Проверка работы с пустым набором функций
-    transformer_function_set = set()  # Никакие функции не применяются
+    transformer_function_set: set[int] = set()  # Никакие функции не применяются
     x_cur, y_cur = 1, 1
     x_var, y_var = apply_variations(transformer_function_set, x_cur, y_cur)
     assert (x_var, y_var) == (0, 0)  # Без трансформаций результат должен быть (0, 0)

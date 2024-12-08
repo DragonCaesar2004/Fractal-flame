@@ -4,14 +4,14 @@ from src.visualization.scaling import scale_to_image_coordinates
 
 
 @pytest.fixture(scope="session")
-def fractal_limits():
+def FRACTAL_LIMITS():
     """Фикстура для границ фрактала."""
 
     class FractalLimits(NamedTuple):
-        x_min = -2.0
-        x_max = 2.0
-        y_min = -2.0
-        y_max = 2.0
+        x_min: float = -2.0
+        x_max: float = 2.0
+        y_min: float = -2.0
+        y_max: float = 2.0
 
     return FractalLimits()
 

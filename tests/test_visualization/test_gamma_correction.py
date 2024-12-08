@@ -1,5 +1,5 @@
 import pytest
-from src.project_types import Pixel
+from src.project_types import Pixel, ImageCoordsAlias
 from src.visualization.gamma_correction import gamma_correction
 
 
@@ -14,14 +14,14 @@ def sample_pixels():
 
 
 @pytest.fixture
-def gamma_coeff():
+def GAMMA_COEFF():
     return 2.2
 
 
 # Тест нормализации нормаль
-def test_normalization(sample_pixels, gamma_coeff):
+def test_normalization(sample_pixels, GAMMA_COEFF):
     # Выполняем gamma_correction
-    gamma_correction(sample_pixels, gamma_coeff)
+    gamma_correction(sample_pixels, GAMMA_COEFF)
 
     normals = [pixel.normal for pixel in sample_pixels.values()]
     max_normal = max(normals)
@@ -33,8 +33,8 @@ def test_normalization(sample_pixels, gamma_coeff):
 
 
 # Тест преобразования цветов
-def test_color_correction(sample_pixels, gamma_coeff):
-    gamma_correction(sample_pixels, gamma_coeff)
+def test_color_correction(sample_pixels, GAMMA_COEFF):
+    gamma_correction(sample_pixels, GAMMA_COEFF)
     for coord, pixel in sample_pixels.items():
         original_red = pixel.red
         original_green = pixel.green
@@ -42,11 +42,11 @@ def test_color_correction(sample_pixels, gamma_coeff):
 
         normalized_normal = pixel.normal
 
-        expected_red = int(original_red * (normalized_normal ** (1.0 / gamma_coeff)))
+        expected_red = int(original_red * (normalized_normal ** (1.0 / GAMMA_COEFF)))
         expected_green = int(
-            original_green * (normalized_normal ** (1.0 / gamma_coeff))
+            original_green * (normalized_normal ** (1.0 / GAMMA_COEFF))
         )
-        expected_blue = int(original_blue * (normalized_normal ** (1.0 / gamma_coeff)))
+        expected_blue = int(original_blue * (normalized_normal ** (1.0 / GAMMA_COEFF)))
 
         assert pixel.red == expected_red
         assert pixel.green == expected_green
@@ -55,8 +55,8 @@ def test_color_correction(sample_pixels, gamma_coeff):
 
 # Тест работы функции при пустом вводе
 def test_empty_pixels():
-    pixels = {}
-    gamma_correction(pixels, gamma_coeff=2.2)  # Без ошибок
+    pixels: dict[ImageCoordsAlias, Pixel] = {}
+    gamma_correction(pixels, GAMMA_COEFF=2.2)  # Без ошибок
     assert len(pixels) == 0  # Пустой ввод = пустой результат
 
 
@@ -65,7 +65,7 @@ def test_zero_normal():
     pixels = {
         (0, 0): Pixel(0, 0, 0, 0),
     }
-    gamma_correction(pixels, gamma_coeff=2.2)
+    gamma_correction(pixels, GAMMA_COEFF=2.2)
 
     pixel = pixels[(0, 0)]
 
@@ -76,10 +76,10 @@ def test_zero_normal():
     assert pixel.blue == 0
 
 
-# Тест на большие значения gamma_coeff
-@pytest.mark.parametrize("gamma_coeff", [0.1, 1.0, 2.2, 10.0])
-def test_gamma_coeff_range(sample_pixels, gamma_coeff):
-    gamma_correction(sample_pixels, gamma_coeff)
+# Тест на большие значения GAMMA_COEFF
+@pytest.mark.parametrize("GAMMA_COEFF", [0.1, 1.0, 2.2, 10.0])
+def test_gamma_coeff_range(sample_pixels, GAMMA_COEFF):
+    gamma_correction(sample_pixels, GAMMA_COEFF)
 
     for pixel in sample_pixels.values():
         # Проверка: цвета остаются корректными (в диапазоне 0-255)
