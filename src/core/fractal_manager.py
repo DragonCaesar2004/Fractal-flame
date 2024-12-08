@@ -23,7 +23,7 @@ from src.visualization.image_renderer import create_fractal_image
 from src.visualization.gamma_correction import gamma_correction
 from src.visualization.scaling import scale_to_image_coordinates
 from src.core.creating_pixel import create_pixel, combine_pixels
-
+from src.timing_decorator import timing_decorator
 
 def process_single_start_point(
     args: tuple[UserData, list, list]
@@ -85,7 +85,8 @@ class Manager:
         ]
         # Генерация соответствующих вероятностей для трансформаций
         self.affine_probabilities = generate_probabilities(affine_transformations_num)
-
+        
+    @timing_decorator
     def create_fractal_flame(self, multistream: bool = False) -> None:
         """
         Создание фрактального изображения, с возможной параллелизацией процессов.
