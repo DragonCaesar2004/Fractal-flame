@@ -13,7 +13,7 @@ from src.core.transformations import (
     generate_valid_affine_transformation,
 )
 from src.project_types import UserData
-from src.timing_decorator import timing_decorator
+from src.utils.timing_decorator import timing_decorator
 from src.visualization.gamma_correction import gamma_correction
 from src.visualization.image_renderer import create_fractal_image
 
